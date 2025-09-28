@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PAS_APP.Models;
+namespace ClassLibrary1.Models;
 
 public partial class User
 {

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using PAS_APP.DAO;
 using PAS_APP.DBContext;
 using PAS_APP.Models;
@@ -42,13 +43,18 @@ namespace PAS_APP
 
 
             builder.Services.AddScoped<UserDao>();
+            builder.Services.AddScoped<PackageDao>();
+            builder.Services.AddScoped<ServiceDao>();
+            builder.Services.AddScoped<FormDao>();
+            builder.Services.AddScoped<IFormService, FormService>();
+            builder.Services.AddScoped<IServiceService, ServiceService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IAdminService, AdminService>();
             builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
             builder.Services.AddSingleton<IPasswordHasher<object>, PasswordHasher<object>>();
             // Session để lưu người đăng nhập
             builder.Services.AddSession();
-
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -58,7 +64,11 @@ namespace PAS_APP
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+              Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"))
+            });
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

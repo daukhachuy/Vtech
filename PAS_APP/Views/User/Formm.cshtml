@@ -31,38 +31,48 @@
         <div class="profile-content">
             <!-- Personal Information -->
             <div class="container my-4">
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertError">
+                        @TempData["Error"]
+                        <a asp-controller="User" asp-action="Profile" class="alert-link">Thêm thông tin</a>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
                 <h2 class="text-center mb-4">Form Đăng Ký Tuyển Dụng</h2>
-                <form>
+                <form  asp-action="Formm" method="post">
                     <!-- 1. Thông tin công ty -->
                     <div class="card mb-4">
                         <div class="card-header bg-primary text-white">
                             1. Thông tin công ty / doanh nghiệp tuyển dụng
                         </div>
+                        <input  type="hidden" name="userid" value="@TempData["userid"]" />
                         <div class="card-body row g-3">
                             <div class="col-md-6">
                                 <label class="form-label">Tên công ty</label>
-                                <input type="text" class="form-control" name="companyName">
+                                <input type="text" class="form-control" name="cpname" value="@TempData["cpname"]" disabled>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Mã công ty</label>
-                                <input type="text" class="form-control" name="companyCode">
+                                <label class="form-label">Mã tuyển dụng</label>
+                                <input type="text" class="form-control" name="cpcode" value="@TempData["cpcode"]" oninput="restrictCodeInput(this)">
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label">Địa chỉ công ty</label>
-                                <input type="text" class="form-control" name="companyAddress">
+                                <input type="text" class="form-control" name="cpaddress" value="@TempData["cpaddress"]" disabled>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Ngày tạo</label>
-                                <input type="date" class="form-control" name="createdDate">
+                                <input type="datetime-local" class="form-control" name="createdDate" value="" readonly>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Ngày hết hạn</label>
-                                <input type="date" class="form-control" name="expiredDate">
+                                <input type="datetime-local" class="form-control" name="expiredDate" oninput="validateDates()">
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label">Thông tin tuyển dụng</label>
-                                <textarea class="form-control" name="recruitInfo" rows="3"></textarea>
+                                <textarea class="form-control" name="infor" rows="3"></textarea>
                             </div>
+                            <div id="error-message" class="text-danger" style="display: none;"></div>
                         </div>
                     </div>
 
@@ -74,11 +84,11 @@
                         <div class="card-body row g-3">
                             <div class="col-md-6">
                                 <label class="form-label">Họ tên</label>
-                                <input type="text" class="form-control" name="studentName">
+                                <input type="text" class="form-control" name="studentName" disabled>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Giới tính</label>
-                                <select class="form-select" name="gender">
+                                <select class="form-select" name="gender" disabled>
                                     <option selected disabled>Chọn giới tính</option>
                                     <option>Nam</option>
                                     <option>Nữ</option>
@@ -87,47 +97,47 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Năm sinh</label>
-                                <input type="number" class="form-control" name="birthYear">
+                                <input type="number" class="form-control" name="birthYear" disabled>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Dân tộc</label>
-                                <input type="text" class="form-control" name="ethnicity">
+                                <input type="text" class="form-control" name="ethnicity" disabled>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Số điện thoại</label>
-                                <input type="tel" class="form-control" name="phone">
+                                <input type="tel" class="form-control" name="phone" disabled>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email">
+                                <input type="email" class="form-control" name="email" disabled>
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label">Hộ khẩu thường trú</label>
-                                <input type="text" class="form-control" name="permanentAddress">
+                                <input type="text" class="form-control" name="permanentAddress" disabled>
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label">Chỗ ở hiện nay</label>
-                                <input type="text" class="form-control" name="currentAddress">
+                                <input type="text" class="form-control" name="currentAddress" disabled>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Điểm trung bình THPT</label>
-                                <input type="text" class="form-control" name="highSchoolGPA">
+                                <input type="text" class="form-control" name="highSchoolGPA" disabled>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Chứng chỉ IELTS</label>
-                                <input type="text" class="form-control" name="ielts">
+                                <input type="text" class="form-control" name="ielts" disabled>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Chứng chỉ TOEIC</label>
-                                <input type="text" class="form-control" name="toeic">
+                                <input type="text" class="form-control" name="toeic" disabled>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Các chứng chỉ khác</label>
-                                <input type="text" class="form-control" name="otherCerts">
+                                <input type="text" class="form-control" name="otherCerts" disabled>
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label">Giới thiệu về bản thân</label>
-                                <textarea class="form-control" name="aboutMe" rows="3"></textarea>
+                                <textarea class="form-control" name="aboutMe" rows="3" disabled></textarea>
                             </div>
                         </div>
                     </div>
@@ -142,58 +152,108 @@
                             <h5 class="fw-bold">Thông tin Bố</h5>
                             <div class="col-md-6">
                                 <label class="form-label">Họ tên bố</label>
-                                <input type="text" class="form-control" name="fatherName">
+                                <input type="text" class="form-control" name="fatherName" disabled>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Năm sinh</label>
-                                <input type="number" class="form-control" name="fatherBirthYear">
+                                <input type="number" class="form-control" name="fatherBirthYear" disabled>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Số điện thoại</label>
-                                <input type="tel" class="form-control" name="fatherPhone">
+                                <input type="tel" class="form-control" name="fatherPhone" disabled>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Nghề nghiệp</label>
-                                <input type="text" class="form-control" name="fatherJob">
+                                <input type="text" class="form-control" name="fatherJob" disabled>
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label">Chỗ ở hiện nay</label>
-                                <input type="text" class="form-control" name="fatherAddress">
+                                <input type="text" class="form-control" name="fatherAddress" disabled>
                             </div>
 
                             <!-- Thông tin Mẹ -->
                             <h5 class="fw-bold mt-4">Thông tin Mẹ</h5>
                             <div class="col-md-6">
                                 <label class="form-label">Họ tên mẹ</label>
-                                <input type="text" class="form-control" name="motherName">
+                                <input type="text" class="form-control" name="motherName" disabled>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Năm sinh</label>
-                                <input type="number" class="form-control" name="motherBirthYear">
+                                <input type="number" class="form-control" name="motherBirthYear" disabled>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Số điện thoại</label>
-                                <input type="tel" class="form-control" name="motherPhone">
+                                <input type="tel" class="form-control" name="motherPhone" disabled>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Nghề nghiệp</label>
-                                <input type="text" class="form-control" name="motherJob">
+                                <input type="text" class="form-control" name="motherJob" disabled>
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label">Chỗ ở hiện nay</label>
-                                <input type="text" class="form-control" name="motherAddress">
+                                <input type="text" class="form-control" name="motherAddress" disabled>
                             </div>
                         </div>
                     </div>
 
                     <!-- Submit -->
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary px-5">Create Collection file</button>
-                    </div>
+                    @if (TempData["Error"] == null)
+                    {
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary px-5">Create Collection file</button>
+                        </div>
+                    }
                 </form>
             </div>
-
-            <a class="btn btn-danger" asp-controller="Forms" asp-action="Frame1"> test </a>
         </div>
     </div>
 </div>
+
+
+
+<script>
+    // Set createdDate to current date and time
+    document.addEventListener('DOMContentLoaded', function() {
+        const createdDateInput = document.querySelector('input[name="createdDate"]');
+        const today = new Date();
+        // Format date to YYYY-MM-DDTHH:MM
+        const formattedDate = today.toISOString().slice(0, 16);
+        createdDateInput.value = formattedDate;
+    });
+
+    // Restrict companyCode to exactly 5 additional digits
+    function restrictCodeInput(input) {
+        const originalValue = '@TempData["cpcode"]';
+        // Prevent deleting the original value
+        if (input.value.length < originalValue.length) {
+            input.value = originalValue;
+        }
+        // Allow only up to 5 digits after the original value
+        const newInput = input.value.slice(originalValue.length);
+        if (!/^\d{0,5}$/.test(newInput)) {
+            input.value = originalValue + newInput.replace(/\D/g, '').slice(0, 5);
+        }
+    }
+
+    // Validate that expiredDate is at least 3 days after createdDate
+    function validateDates() {
+        const createdDateInput = document.querySelector('input[name="createdDate"]');
+        const expiredDateInput = document.querySelector('input[name="expiredDate"]');
+        const errorMessage = document.getElementById('error-message');
+
+        const createdDate = new Date(createdDateInput.value);
+        const expiredDate = new Date(expiredDateInput.value);
+
+        // Calculate the minimum allowed expired date (3 days after created date)
+        const minExpiredDate = new Date(createdDate);
+        minExpiredDate.setDate(createdDate.getDate() + 3);
+
+        if (expiredDate < minExpiredDate) {
+            errorMessage.style.display = 'block';
+            errorMessage.textContent = 'Ngày hết hạn phải cách ngày tạo ít nhất 3 ngày.';
+            expiredDateInput.value = ''; // Clear invalid input
+        } else {
+            errorMessage.style.display = 'none';
+        }
+    }
+</script>

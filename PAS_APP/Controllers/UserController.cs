@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using PAS_APP.Models;
 using PAS_APP.Services;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace PAS_APP.Controllers
 {
@@ -14,10 +16,15 @@ namespace PAS_APP.Controllers
 
         private readonly IUserService _user;
 
-        public UserController(ILogger<UserController> logger , IUserService user)
+        private readonly IServiceService _service;
+        private readonly IFormService _form;
+
+        public UserController(ILogger<UserController> logger , IUserService user , IServiceService service ,IFormService form)
         {
             _logger = logger;
             _user = user;
+            _service = service;
+            _form = form;
         }
 
         public IActionResult UserHome()
@@ -51,6 +58,27 @@ namespace PAS_APP.Controllers
 
             var acc = await _user.GetUserByEmail(HttpContext.Session.GetString("Email"));
             ViewBag.Account = acc;
+            var package = await _user.GetPackageAsync(acc.UserId);
+
+            ViewBag.Packkage = package?.Package?.Title ?? "Chưa có gói dịch vụ";
+            ViewBag.Price = package?.Package?.Price ?? 0;
+            ViewBag.Detail = package?.Package?.Detail ?? "";
+
+            if (package?.DateBuyPackage != null && package?.Package.Due > 0)
+            {
+                int monthsToAdd = package.Package.Due; 
+                DateTime startDate = package.DateBuyPackage.Value; 
+                DateTime dueDate = startDate.AddMonths(monthsToAdd); 
+                ViewBag.Time = dueDate.ToString("dd/MM/yyyy"); 
+                ViewBag.DueDate = package.DateBuyPackage?.ToString("dd/MM/yyyy");
+
+            }
+            else
+            {
+                ViewBag.DueDate = "N/A";
+                ViewBag.Time = "N/A";
+            }
+
             return View();    
         }
 
@@ -99,14 +127,81 @@ namespace PAS_APP.Controllers
             return RedirectToAction(nameof(Profile));
         }
 
-        public IActionResult Form()
+        [HttpGet]
+        public async  Task<IActionResult> Formm()
         {
+            var account = GetUsername();
+            if (account == false)
+            {
+                TempData["Error"] = "Vui lòng đăng nhập để tiếp tục";
+                return RedirectToAction("Signin", "Account");
+            }
+            ViewBag.Username = HttpContext.Session.GetString("Username");
+            var email = HttpContext.Session.GetString("Email");
+            var acc = await _user.GetUserByEmail(email);
+            var forms = await _form.GetFormsByUserId(acc.UserId);
+            if (acc.CompanyCode == null)
+            {
+                TempData["Error"] = "Vui lòng thêm mã công ty trước khi tạo form thu thập";
+                return View();
+
+            }
+            TempData["cpname"] = acc.CompanyName;
+            TempData["cpcode"] = acc.CompanyCode + "_";
+            TempData["cpaddress"] = acc.CompanyAddress;
+            TempData["userid"] = acc.UserId;
             return View();
         }
 
-        public IActionResult Service()
+        [HttpPost]
+        public async Task<IActionResult> Formm(int userid, string cpname, string cpcode, string cpaddress, DateTime? createdDate, DateTime expiredDate, string infor)
         {
-            return View();
+            var account = GetUsername();
+            if (account == false)
+            {
+                TempData["Error"] = "Vui lòng đăng nhập để tiếp tục";
+                return RedirectToAction("Signin", "Account");
+            }
+            ViewBag.Username = HttpContext.Session.GetString("Username");
+
+            var form = new Form
+            {
+                FormId = cpcode,
+                CreateAt = createdDate.HasValue ? createdDate.Value : DateTime.Now,
+                Due = expiredDate,
+                Info = infor
+            };
+            var addFormResult = await _form.AddAsync(form, userid);
+            if (addFormResult)
+            {
+                TempData["code"] = form;
+                return RedirectToAction("Formm", "FormColect");
+
+            }
+
+            TempData["Error"] = "Tạo form thất bại. Vui lòng kiểm tra lại mã tuyển dụng có thể đã tồn tại.";
+            return RedirectToAction(nameof(Formm));
+            
+            
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Service()
+        {
+            var account = GetUsername();
+            if (account == false)
+            {
+                TempData["Error"] = "Vui lòng đăng nhập để tiếp tục";
+                return RedirectToAction("Signin", "Account");
+            }
+            ViewBag.Username = HttpContext.Session.GetString("Username");
+            var services =  await _service.GetAllServicesAsync();
+            if (services == null || services.Count == 0)
+            {
+                TempData["Error"] = "Không có dịch vụ nào được tìm thấy.";
+                return View(new List<Service>());
+            }
+            return View(services);
         }
 
         public IActionResult FileExcel()
