@@ -1,0 +1,299 @@
+﻿@{
+    ViewData["Title"] = "Profile";
+}
+
+
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Header -->
+    <header class="header">
+        <h1 class="header-title">My Profile</h1>
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Search..." id="searchInput">
+        </div>
+        <div class="header-actions">
+            <button class="notification-btn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </button>
+            <div class="user-profile">
+                <img src="/placeholder.svg?height=32&width=32" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <h6 id="userName">John Doe</h6>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile Content -->
+    <div class="content">
+        <div class="profile-content">
+            <!-- Personal Information -->
+            
+            <div class="dashboard-card">
+                @* Thông báo *@
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert" id="alertSuccess">
+                        @TempData["Success"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertError">
+                        @TempData["Error"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+                <div class="card-header-modern">
+                    <h5>Thông tin tài khản</h5>
+                    <button class="edit-profile-btn" onclick="editPersonalInfo()">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+                <div class="card-content">
+                    <div class="profile-info">
+                        <div class="profile-avatar-section">
+                            <div class="profile-basic-info">
+                                <h4 id="profileName">@ViewBag.Account.UserName</h4>
+                                <p id="profileEmail">@ViewBag.Account.Email</p>
+                                <p id="profilePhone">@ViewBag.Account.Dob</p>
+                                <div class="profile-badges">
+                                    <span class="profile-badge verified">
+                                        <i class="fas fa-check-circle"></i> @ViewBag.Account.Status
+                                    </span>
+                                    <span class="profile-badge member">
+                                        <i class="fas fa-star"></i> @ViewBag.Account.CompanyCode
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile-details-grid">
+                            <div class="detail-card">
+                                <div class="detail-icon">
+                                    <i class="fas fa-birthday-cake"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <span class="detail-label">Ngày tạo tài khản</span>
+                                    <span class="detail-value" id="profileDOB">@ViewBag.Account.CreateAt</span>
+                                </div>
+                            </div>
+                            <div class="detail-card">
+                                <div class="detail-icon">
+                                    <i class="fa-solid fa-building"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <span class="detail-label">Tên công ty</span>
+                                    <span class="detail-value">@ViewBag.Account.CompanyName</span>
+                                </div>
+                            </div>
+                            <div class="detail-card">
+                                <div class="detail-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <span class="detail-label">Dịa chỉ công ty</span>
+                                    <span class="detail-value">@ViewBag.Account.CompanyAddress</span>
+                                </div>
+                            </div>
+                            <div class="detail-card">
+                                <div class="detail-icon">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <span class="detail-label">Số điện thoại</span>
+                                    <span class="detail-value">@ViewBag.Account.Phone</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <!-- Insurance Information -->
+            <div class="dashboard-card">
+                
+                <div class="card-header-modern">
+                    <h5>Thông tin gói dịch vụ</h5>
+                </div>
+                <div class="card-content">
+                    <div class="insurance-info">
+                        <div class="insurance-card">
+                            <div class="insurance-header">
+                                <div class="insurance-logo">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <div class="insurance-details">
+                                    <h6>tên gói </h6>
+                                    <p>10 000 vnd /6tháng</p>
+                                </div>
+                                <div class="insurance-status">
+                                    <span class="status-badge active">Active</span>
+                                </div>
+                            </div>
+                            <div class="insurance-details-grid">
+                                <div class="insurance-detail">
+                                    <span class="detail-label">Giá </span>
+                                    <span class="detail-value">BC123456789</span>
+                                </div>
+                                <div class="insurance-detail">
+                                    <span class="detail-label">Ngày mua</span>
+                                    <span class="detail-value">GRP987654</span>
+                                </div>
+                                <div class="insurance-detail">
+                                    <span class="detail-label">Chi tiết</span>
+                                    <span class="detail-value">January 1, 2024</span>
+                                </div>
+                                <div class="insurance-detail">
+                                    <span class="detail-label">Ngày hết hạn</span>
+                                    <span class="detail-value">$25</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Settings -->
+            <div class="dashboard-card">
+                
+                <div class="card-header-modern">
+                    <h5>Account Settings</h5>
+                </div>
+                <div class="card-content">
+                    <div class="settings-list">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <i class="fas fa-bell setting-icon"></i>
+                                <div>
+                                    <h6>Notifications</h6>
+                                    <p>Manage your notification preferences</p>
+                                </div>
+                            </div>
+                            <div class="setting-toggle">
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <i class="fas fa-lock setting-icon"></i>
+                                <div>
+                                    <h6>Two-Factor Authentication</h6>
+                                    <p>Add an extra layer of security</p>
+                                </div>
+                            </div>
+                            <div class="setting-toggle">
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <i class="fas fa-eye setting-icon"></i>
+                                <div>
+                                    <h6>Privacy Mode</h6>
+                                    <p>Control who can see your information</p>
+                                </div>
+                            </div>
+                            <div class="setting-toggle">
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="setting-item danger">
+                            <div class="setting-info">
+                                <i class="fas fa-trash setting-icon"></i>
+                                <div>
+                                    <h6>Delete Account</h6>
+                                    <p>Permanently delete your account and data</p>
+                                </div>
+                            </div>
+                            <button class="btn btn-danger btn-sm" onclick="deleteAccount()">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Edit Personal Info Modal -->
+<div class="modal fade" id="editPersonalModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chỉnh sửa thông tin </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editPersonalForm" asp-action="Profile" method="post">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="editName" class="form-label">Tên người dùng</label>
+                            <input name="name"  type="text" class="form-control" id="editName">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editdob" class="form-label">Ngày sinh</label>
+                            <input name="dob"
+                                   type="datetime-local"
+                                   class="form-control"
+                                   id="editdob">
+                        </div>
+                    </div>
+                    <div class="row">
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="editPhone" class="form-label">Số điện thoại</label>
+                            <input name="phone"  type="tel" class="form-control" id="editPhone">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editpassword" class="form-label">Mật khẩu</label>
+                            <input name="pass" type="password" class="form-control" id="editpassword">
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            <label for="editPhone" class="form-label">Tên công ty</label>
+                            <input name="companyname" type="tel" class="form-control" id="editPhone">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editpassword" class="form-label">Mã công ty</label>
+                            <input name="code"
+                                   type="text"
+                                   class="form-control text-uppercase"
+                                   id="editpassword"
+                                   oninput="this.value = this.value.toUpperCase()">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editAddress" class="form-label">Dịa chỉ công ty</label>
+                        <textarea name="address" class="form-control" id="editAddress" rows="3"></textarea>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

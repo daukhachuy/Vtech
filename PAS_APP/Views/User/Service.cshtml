@@ -1,0 +1,146 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Header -->
+    <header class="header">
+        <h1 class="header-title">Service</h1>
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Search..." id="searchInput">
+        </div>
+        <div class="header-actions">
+            <button class="notification-btn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </button>
+            <div class="user-profile">
+                <img src="/placeholder.svg?height=32&width=32" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <h6 id="userName">John Doe</h6>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Service Content -->
+    <div class="container py-4">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h1 class="h4 m-0">List of service</h1>
+            <div class="w-50 ms-3">
+                <input id="search" class="form-control" placeholder="Search by title or description ......">
+            </div>
+        </div>
+
+        <div id="servicesRow" class="row g-3">
+            <!-- Cards injected here -->
+        </div>
+
+        <template id="cardTpl">
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="card card-service h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title mb-1"></h5>
+                        <p class="card-text truncate-2 mb-2"></p>
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <div class="meta"></div>
+                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#detailModal">Chi tiết</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Detail modal -->
+        <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Tiêu đề</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-muted small mb-2"></p>
+                        <p class="detail-body"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Service Content -->
+    
+</div>
+
+
+<script>
+    // Sample data (replace with your real data or fetch from API)
+    const services = [
+    { id: 1, title: 'Thay dầu động cơ', detail: 'Thay dầu, kiểm tra lọc dầu và hệ thống bôi trơn.', createdAt: '2025-09-01T10:15:00Z' },
+    { id: 2, title: 'Bảo dưỡng định kỳ 10.000km', detail: 'Kiểm tra toàn bộ hệ thống, thay lọc gió, kiểm tra phanh và lốp.', createdAt: '2025-08-20T08:00:00Z' },
+    { id: 3, title: 'Sửa hệ thống điện', detail: 'Xác định lỗi chập điện, thay thế cầu chì, kiểm tra ắc quy và hệ thống đóng/ngắt.', createdAt: '2025-07-15T14:30:00Z' },
+    { id: 4, title: 'Vệ sinh nội thất', detail: 'Vệ sinh ghế, hút bụi, xử lý mùi và làm sạch các chi tiết nội thất.', createdAt: '2025-09-10T09:00:00Z' }
+    ];
+
+
+    const servicesRow = document.getElementById('servicesRow');
+    const tpl = document.getElementById('cardTpl');
+    const searchInput = document.getElementById('search');
+    const modalEl = document.getElementById('detailModal');
+
+
+    function formatDate(iso) {
+    const d = new Date(iso);
+    return d.toLocaleString('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    }
+
+
+    function render(list) {
+    servicesRow.innerHTML = '';
+    if (list.length === 0) {
+    servicesRow.innerHTML = '<div class="col-12"><div class="alert alert-info mb-0">Không tìm thấy dịch vụ nào.</div></div>';
+    return;
+    }
+
+
+    list.forEach(s => {
+    const node = tpl.content.cloneNode(true);
+    node.querySelector('.col-12').setAttribute('data-id', s.id);
+    node.querySelector('.card-title').textContent = s.title;
+    node.querySelector('.card-text').textContent = s.detail;
+    node.querySelector('.meta').textContent = 'Tạo: ' + formatDate(s.createdAt);
+    const btn = node.querySelector('button');
+    btn.addEventListener('click', () => openDetail(s));
+    servicesRow.appendChild(node);
+    });
+    }
+
+
+    function openDetail(s) {
+    modalEl.querySelector('.modal-title').textContent = s.title;
+    modalEl.querySelector('.modal-body .small').textContent = 'Tạo: ' + formatDate(s.createdAt);
+    modalEl.querySelector('.detail-body').textContent = s.detail;
+    }
+
+
+    // Search/filter
+    searchInput.addEventListener('input', (e) => {
+    const q = e.target.value.trim().toLowerCase();
+    const filtered = services.filter(s => s.title.toLowerCase().includes(q) || s.detail.toLowerCase().includes(q));
+    render(filtered);
+    });
+
+
+    // initial render
+    render(services);
+</script>
+
+
+

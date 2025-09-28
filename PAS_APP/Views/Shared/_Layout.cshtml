@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] PAS</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PAS_APP.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/DataTable/DataTable.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/DataTable/dataTables.bootstrap4.min.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Table -->
+     @* <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" media="all">  *@
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.css" media="all">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css" media="all">
+     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css" media="all">
+    <!-- table end -->
+
+
+</head>
+<body>
+    <header>
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fa-solid fa-p fa-xl"></i>
+                </div>
+                <div class="sidebar-title">Profile Analysis System</div>
+            </div>
+            <nav class="sidebar-nav">
+                <a asp-controller="User" asp-action="UserHome" class="sidebar-item active">
+                    <div class="sidebar-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <span class="sidebar-text">Trang chủ</span>
+                </a>
+                <a asp-controller="User" asp-action="Service" class="sidebar-item">
+                    <div class="sidebar-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <span class="sidebar-text">Dịch vụ</span>
+                </a>
+                <a asp-controller="User" asp-action="Form" class="sidebar-item">
+                    <div class="sidebar-icon">
+                        <i class="fa-solid fa-file-lines"></i>
+                    </div>
+                    <span class="sidebar-text">Tạo mẫu</span>
+                </a>
+                <a asp-controller="User" asp-action="FileExcel" class="sidebar-item">
+                    <div class="sidebar-icon">
+                        <i class="fa-solid fa-table"></i>
+                    </div>
+                    <span class="sidebar-text">Dữ liệu</span>
+                </a>
+                <a asp-controller="User" asp-action="Filter" class="sidebar-item">
+                    <div class="sidebar-icon">
+                        <i class="fa-solid fa-filter"></i>
+                    </div>
+                    <span class="sidebar-text">Bộ lọc</span>
+                </a>
+                <a asp-controller="User" asp-action="Profile" class="sidebar-item">
+                    <div class="sidebar-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="sidebar-text">Hồ sơ</span>
+                </a>
+                <button  class="sidebar-item" onclick="logout()">
+                    <div class="sidebar-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                    <span class="sidebar-text">Thoát</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+    <div >
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            PAS; Profile Analysis System - <a asp-area="" asp-controller="" asp-action="">Start Filtering</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/DataTable/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/DataTable/jquery.dataTables.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+    <!--Datatable JS-->
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+        } );
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

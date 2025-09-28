@@ -1,0 +1,199 @@
+﻿@{
+    ViewData["Title"] = "Form";
+}
+
+
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Header -->
+    <header class="header">
+        <h1 class="header-title">My Profile</h1>
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Search..." id="searchInput">
+        </div>
+        <div class="header-actions">
+            <button class="notification-btn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </button>
+            <div class="user-profile">
+                <img src="/placeholder.svg?height=32&width=32" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <h6 id="userName">John Doe</h6>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile Content -->
+    <div class="content">
+        <div class="profile-content">
+            <!-- Personal Information -->
+            <div class="container my-4">
+                <h2 class="text-center mb-4">Form Đăng Ký Tuyển Dụng</h2>
+                <form>
+                    <!-- 1. Thông tin công ty -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            1. Thông tin công ty / doanh nghiệp tuyển dụng
+                        </div>
+                        <div class="card-body row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Tên công ty</label>
+                                <input type="text" class="form-control" name="companyName">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Mã công ty</label>
+                                <input type="text" class="form-control" name="companyCode">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">Địa chỉ công ty</label>
+                                <input type="text" class="form-control" name="companyAddress">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Ngày tạo</label>
+                                <input type="date" class="form-control" name="createdDate">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Ngày hết hạn</label>
+                                <input type="date" class="form-control" name="expiredDate">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">Thông tin tuyển dụng</label>
+                                <textarea class="form-control" name="recruitInfo" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Thông tin học sinh/người đăng ký -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-success text-white">
+                            2. Thông tin học sinh / người đăng ký
+                        </div>
+                        <div class="card-body row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Họ tên</label>
+                                <input type="text" class="form-control" name="studentName">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Giới tính</label>
+                                <select class="form-select" name="gender">
+                                    <option selected disabled>Chọn giới tính</option>
+                                    <option>Nam</option>
+                                    <option>Nữ</option>
+                                    <option>Khác</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Năm sinh</label>
+                                <input type="number" class="form-control" name="birthYear">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Dân tộc</label>
+                                <input type="text" class="form-control" name="ethnicity">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Số điện thoại</label>
+                                <input type="tel" class="form-control" name="phone">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">Hộ khẩu thường trú</label>
+                                <input type="text" class="form-control" name="permanentAddress">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">Chỗ ở hiện nay</label>
+                                <input type="text" class="form-control" name="currentAddress">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Điểm trung bình THPT</label>
+                                <input type="text" class="form-control" name="highSchoolGPA">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Chứng chỉ IELTS</label>
+                                <input type="text" class="form-control" name="ielts">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Chứng chỉ TOEIC</label>
+                                <input type="text" class="form-control" name="toeic">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Các chứng chỉ khác</label>
+                                <input type="text" class="form-control" name="otherCerts">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">Giới thiệu về bản thân</label>
+                                <textarea class="form-control" name="aboutMe" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Thông tin gia đình -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-info text-white">
+                            3. Thông tin gia đình / người thân
+                        </div>
+                        <div class="card-body row g-3">
+                            <!-- Thông tin Bố -->
+                            <h5 class="fw-bold">Thông tin Bố</h5>
+                            <div class="col-md-6">
+                                <label class="form-label">Họ tên bố</label>
+                                <input type="text" class="form-control" name="fatherName">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Năm sinh</label>
+                                <input type="number" class="form-control" name="fatherBirthYear">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Số điện thoại</label>
+                                <input type="tel" class="form-control" name="fatherPhone">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Nghề nghiệp</label>
+                                <input type="text" class="form-control" name="fatherJob">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">Chỗ ở hiện nay</label>
+                                <input type="text" class="form-control" name="fatherAddress">
+                            </div>
+
+                            <!-- Thông tin Mẹ -->
+                            <h5 class="fw-bold mt-4">Thông tin Mẹ</h5>
+                            <div class="col-md-6">
+                                <label class="form-label">Họ tên mẹ</label>
+                                <input type="text" class="form-control" name="motherName">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Năm sinh</label>
+                                <input type="number" class="form-control" name="motherBirthYear">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Số điện thoại</label>
+                                <input type="tel" class="form-control" name="motherPhone">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Nghề nghiệp</label>
+                                <input type="text" class="form-control" name="motherJob">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">Chỗ ở hiện nay</label>
+                                <input type="text" class="form-control" name="motherAddress">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary px-5">Create Collection file</button>
+                    </div>
+                </form>
+            </div>
+
+            <a class="btn btn-danger" asp-controller="Forms" asp-action="Frame1"> test </a>
+        </div>
+    </div>
+</div>

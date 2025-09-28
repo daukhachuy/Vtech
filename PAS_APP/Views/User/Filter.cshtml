@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["Title"] = "Filter";
+}
+
+
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Header -->
+    <header class="header">
+        <h1 class="header-title">My Profile</h1>
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Search..." id="searchInput">
+        </div>
+        <div class="header-actions">
+            <button class="notification-btn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </button>
+            <div class="user-profile">
+                <img src="/placeholder.svg?height=32&width=32" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <h6 id="userName">John Doe</h6>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile Content -->
+    <div class="content">
+        <div class="profile-content">
+            <!-- Personal Information -->
+            <div class="card p-4 container">
+                <h3 class="mb-4 text-primary text-center">Create profile filtering request</h3>
+                <form>
+                    <!-- Invoice -->
+                    <div class="mb-3">
+                        <label for="invoice" class="form-label">Invoice</label>
+                        <input type="text" class="form-control" id="invoice" value="INV-00123" readonly>
+                    </div>
+
+                    <!-- Dropdown -->
+                    <div class="mb-3">
+                        <label for="serviceOption" class="form-label">Select service</label>
+                        <select class="form-select" id="serviceOption">
+
+                            <option value="1">service 1</option>
+                            <option value="2">service 2</option>
+                            <option value="3">service 3</option>
+                        </select>
+                    </div>
+
+                    <!-- Tên người sử dụng -->
+                    <div class="mb-3">
+                        <label for="userName" class="form-label">User name</label>
+                        <input type="text" class="form-control" id="userName" value="Nguyễn Văn A" readonly>
+                    </div>
+
+                    <!-- Ngày sử dụng -->
+                    <div class="mb-3">
+                        <label for="usageDate" class="form-label">Date of use</label>
+                        <input type="date" class="form-control" id="usageDate" value="2025-06-29" readonly>
+                    </div>
+
+                    <!-- Import File -->
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Import data filter</label>
+                        <input class="form-control" type="file" id="formFile">
+                    </div>
+
+                    <!-- Ghi chú -->
+                    <div class="mb-3">
+                        <label for="note" class="form-label">Note</label>
+                        <textarea class="form-control" id="note" rows="4" placeholder="Nhập ghi chú tại đây..."></textarea>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary px-5">Execution</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
