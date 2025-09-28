@@ -2,10 +2,12 @@
 
 namespace PAS_APP.Controllers
 {
-    public class FormsController : Controller
+    public class FormColectController : Controller
     {
+        [HttpGet]
         public IActionResult Frame1()
         {
+
             return View();
         }
     }

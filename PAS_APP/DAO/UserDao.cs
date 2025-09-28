@@ -19,6 +19,13 @@ namespace PAS_APP.DAO
                          .FirstOrDefaultAsync(u => u.Email == email && u.Status);
         }
 
+        public async Task<User?> GetPackageAsync(int userId)
+        {
+            return await _context.Users
+                         .Include(u => u.Package)
+                         .FirstOrDefaultAsync(u => u.UserId == userId && u.Status);
+        }
+
         public User? Checkemail(string email)
         {
             return  _context.Users

@@ -39,5 +39,11 @@ namespace PAS_APP.Services
 
            return await _userDao.update(user);
         }
+
+
+        public async Task<User?> GetPackageAsync(int userId)
+        {
+            return await _userDao.GetPackageAsync(userId);
+        }
     }
 }

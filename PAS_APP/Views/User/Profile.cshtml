@@ -18,9 +18,9 @@
                 <span class="notification-badge">3</span>
             </button>
             <div class="user-profile">
-                <img src="/placeholder.svg?height=32&width=32" alt="User" class="user-avatar">
+                <img src="" alt="User" class="user-avatar">
                 <div class="user-info">
-                    <h6 id="userName">John Doe</h6>
+                    <h6 id="userName">@ViewBag.Username</h6>
                 </div>
             </div>
         </div>
@@ -129,29 +129,29 @@
                                     <i class="fas fa-shield-alt"></i>
                                 </div>
                                 <div class="insurance-details">
-                                    <h6>tên gói </h6>
-                                    <p>10 000 vnd /6tháng</p>
+                                    <h6>@ViewBag.Packkage</h6>
+                                    <p></p>
                                 </div>
                                 <div class="insurance-status">
-                                    <span class="status-badge active">Active</span>
+                                    <span class="status-badge active"></span>
                                 </div>
                             </div>
                             <div class="insurance-details-grid">
                                 <div class="insurance-detail">
                                     <span class="detail-label">Giá </span>
-                                    <span class="detail-value">BC123456789</span>
+                                    <span class="detail-value">@ViewBag.Price</span>
                                 </div>
                                 <div class="insurance-detail">
                                     <span class="detail-label">Ngày mua</span>
-                                    <span class="detail-value">GRP987654</span>
+                                    <span class="detail-value">@ViewBag.DueDate</span>
                                 </div>
                                 <div class="insurance-detail">
                                     <span class="detail-label">Chi tiết</span>
-                                    <span class="detail-value">January 1, 2024</span>
+                                    <span class="detail-value">@ViewBag.Detail</span>
                                 </div>
                                 <div class="insurance-detail">
                                     <span class="detail-label">Ngày hết hạn</span>
-                                    <span class="detail-value">$25</span>
+                                    <span class="detail-value">@ViewBag.Time</span>
                                 </div>
                             </div>
                         </div>

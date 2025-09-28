@@ -7,6 +7,8 @@ namespace PAS_APP.Services
         Task<User?> ValidateUserAsync(string email, string password);
 
         Task<User?> GetUserByEmail(string email);
+
+        Task<User?> GetPackageAsync(int userId);
         User? Checkemail(string email);
         Task<bool> UpdateProfile(User user);
     }
