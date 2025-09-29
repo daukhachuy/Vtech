@@ -46,6 +46,8 @@ namespace PAS_APP
             builder.Services.AddScoped<PackageDao>();
             builder.Services.AddScoped<ServiceDao>();
             builder.Services.AddScoped<FormDao>();
+            builder.Services.AddScoped<StudentDao>();
+            builder.Services.AddScoped<IStudentService, StudentService>();
             builder.Services.AddScoped<IFormService, FormService>();
             builder.Services.AddScoped<IServiceService, ServiceService>();
             builder.Services.AddScoped<IUserService, UserService>();

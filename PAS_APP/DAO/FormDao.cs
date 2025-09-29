@@ -18,10 +18,12 @@ namespace PAS_APP.DAO
 
         public async Task<bool> AddAsync(Form forms, int userid)
         {
+
             var existingForm = await _context.Forms
                 .FirstOrDefaultAsync(f => f.FormId == forms.FormId);
             var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userid);
-            if (existingForm == null && user != null)
+            await _context.SaveChangesAsync();
+            if ( user != null)
             {
                 _context.Forms.Add(forms);
                 user.Forms.Add(forms);
@@ -29,9 +31,10 @@ namespace PAS_APP.DAO
                 return true;
             }
 
-            Console.WriteLine("Form with the same FormId already exists or User not found.");
             return false;
         }
+
+
 
 
 

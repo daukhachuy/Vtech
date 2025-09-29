@@ -39,6 +39,14 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 }
+                @if (TempData["ErrorInfor"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertError">
+                        @TempData["ErrorInfor"]
+                       
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
                 <h2 class="text-center mb-4">Form Đăng Ký Tuyển Dụng</h2>
                 <form  asp-action="Formm" method="post">
                     <!-- 1. Thông tin công ty -->

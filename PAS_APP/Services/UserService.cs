@@ -45,5 +45,11 @@ namespace PAS_APP.Services
         {
             return await _userDao.GetPackageAsync(userId);
         }
+
+
+        public async Task<User> GetUserByFormIdAsync(string formId)
+        {
+            return await _userDao.GetUserByFormIdAsync(formId);
+        }
     }
 }

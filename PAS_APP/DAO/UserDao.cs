@@ -50,5 +50,14 @@ namespace PAS_APP.DAO
             return false;
         }
 
+
+        public async Task<User> GetUserByFormIdAsync(string formId)
+        {
+            var user = await _context.Users
+                .Include(u => u.Forms)
+                .FirstOrDefaultAsync(u => u.Forms.Any(f => f.FormId == formId));
+            return user!;
+        }
+
     }
 }
