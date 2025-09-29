@@ -4,6 +4,8 @@
     Layout = null;
 }
 
+@model PAS_APP.Models.Form
+
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -35,27 +37,27 @@
                 <div class="card-body row g-3">
                     <div class="col-md-6">
                         <label class="form-label">Tên công ty</label>
-                        <input type="text" class="form-control" name="companyName">
+                        <input type="text" class="form-control" name="companyName" value="@TempData["cpname"]" disabled>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Mã công ty</label>
-                        <input type="text" class="form-control" name="companyCode">
+                        <input type="text" class="form-control" name="companyCode " value="@Model.FormId" disabled>
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">Địa chỉ công ty</label>
-                        <input type="text" class="form-control" name="companyAddress">
+                        <input type="text" class="form-control" name="companyAddress" value="@TempData["cpaddress"]" disabled>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Ngày tạo</label>
-                        <input type="date" class="form-control" name="createdDate">
+                        <input type="text" class="form-control" name="createdDate" value="@Model.CreateAt" disabled>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Ngày hết hạn</label>
-                        <input type="date" class="form-control" name="expiredDate">
+                        <input type="text" class="form-control" name="expiredDate" value="@Model.Due" disabled>
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">Thông tin tuyển dụng</label>
-                        <textarea class="form-control" name="recruitInfo" rows="3"></textarea>
+                        <textarea class="form-control" name="expiredDate" rows="4" disabled>@Model.Info</textarea>
                     </div>
                 </div>
             </div>

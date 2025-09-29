@@ -11,5 +11,6 @@ namespace PAS_APP.Services
         Task<User?> GetPackageAsync(int userId);
         User? Checkemail(string email);
         Task<bool> UpdateProfile(User user);
+        Task<User> GetUserByFormIdAsync(string formId);
     }
 }

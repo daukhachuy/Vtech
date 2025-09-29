@@ -105,13 +105,8 @@ namespace PAS_APP.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            // Xóa session
             HttpContext.Session.Clear();
-
-            // Đăng xuất khỏi cookie authentication (quan trọng)
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-
             return RedirectToAction("Signin");
         }
     }

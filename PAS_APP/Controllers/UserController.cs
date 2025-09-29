@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.SqlServer.Server;
+using Newtonsoft.Json;
 using PAS_APP.Models;
 using PAS_APP.Services;
 using System.Diagnostics;
@@ -19,12 +21,15 @@ namespace PAS_APP.Controllers
         private readonly IServiceService _service;
         private readonly IFormService _form;
 
-        public UserController(ILogger<UserController> logger , IUserService user , IServiceService service ,IFormService form)
+        private readonly IStudentService _student;
+
+        public UserController(ILogger<UserController> logger , IUserService user , IServiceService service ,IFormService form ,IStudentService student)
         {
             _logger = logger;
             _user = user;
             _service = service;
             _form = form;
+            _student = student;
         }
 
         public IActionResult UserHome()
@@ -154,7 +159,7 @@ namespace PAS_APP.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Formm(int userid, string cpname, string cpcode, string cpaddress, DateTime? createdDate, DateTime expiredDate, string infor)
+        public async Task<IActionResult> Formm(int userid, string cpname, string cpcode, string cpaddress, DateTime? createdDate, DateTime? expiredDate, string infor)
         {
             var account = GetUsername();
             if (account == false)
@@ -163,7 +168,15 @@ namespace PAS_APP.Controllers
                 return RedirectToAction("Signin", "Account");
             }
             ViewBag.Username = HttpContext.Session.GetString("Username");
-
+            Console.WriteLine($"[DEBUG] FormId: {cpcode}, UserId: {userid}");
+            Console.WriteLine($"[DEBUG] Company date: {createdDate}");
+            Console.WriteLine($"[DEBUG] Company date: {expiredDate}");
+            Console.WriteLine($"[DEBUG] Created stirng t: {infor}");
+            if (string.IsNullOrEmpty(cpcode) || string.IsNullOrEmpty(infor) || createdDate == null || expiredDate == null )
+            {
+                TempData["ErrorInfor"] = "Vui lòng điền đầy đủ thông tin.";
+                return RedirectToAction(nameof(Formm));
+            }
             var form = new Form
             {
                 FormId = cpcode,
@@ -174,9 +187,7 @@ namespace PAS_APP.Controllers
             var addFormResult = await _form.AddAsync(form, userid);
             if (addFormResult)
             {
-                TempData["code"] = form;
-                return RedirectToAction("Formm", "FormColect");
-
+                return RedirectToAction("Frame1", "FormColect" , new {formid= form.FormId});
             }
 
             TempData["Error"] = "Tạo form thất bại. Vui lòng kiểm tra lại mã tuyển dụng có thể đã tồn tại.";
@@ -204,9 +215,43 @@ namespace PAS_APP.Controllers
             return View(services);
         }
 
-        public IActionResult FileExcel()
+        [HttpGet]
+        public async Task<IActionResult> FileExcel()
         {
+            var account = GetUsername();
+            if (account == false)
+            {
+                TempData["Error"] = "Vui lòng đăng nhập để tiếp tục";
+                return RedirectToAction("Signin", "Account");
+            }
+            ViewBag.Username = HttpContext.Session.GetString("Username");
+            var userId = HttpContext.Session.GetInt32("UserId");
+            var form = await _form.GetFormsByUserId(userId.Value);
+            ViewBag.Forms = form;
+            if (TempData["Data"] != null)
+            {
+                ViewBag.Data = JsonConvert.DeserializeObject<List<Student>>(
+                                   TempData["Data"].ToString());
+            }
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ReadForm(string? FormId)
+        {
+            var account = GetUsername();
+            if (account == false)
+            {
+                TempData["Error"] = "Vui lòng đăng nhập để tiếp tục";
+                return RedirectToAction("Signin", "Account");
+            }
+            ViewBag.Username = HttpContext.Session.GetString("Username");
+            var userId = HttpContext.Session.GetInt32("UserId");
+            var form = await _form.GetFormsByUserId(userId.Value);
+            ViewBag.Forms = form;
+            var students = await _student.GetStudentsByFormId(FormId);
+            TempData["Data"] = JsonConvert.SerializeObject(students);
+            return RedirectToAction(nameof(FileExcel));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
